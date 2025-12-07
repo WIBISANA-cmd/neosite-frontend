@@ -33,7 +33,7 @@ const BlogDetail = () => {
 
   return (
     <SectionWrapper title={post.title} eyebrow={post.category}>
-      <div className="space-y-4 text-slate-200">
+      <div className="reveal-card space-y-4 text-slate-200">
         <p className="text-sm text-slate-400">
           {post.published_at && new Date(post.published_at).toLocaleDateString('id-ID')}
         </p>

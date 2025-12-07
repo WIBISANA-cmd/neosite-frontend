@@ -61,7 +61,7 @@ const Portfolio = () => {
           <Link
             to={`/portfolio/${item.slug}`}
             key={item.slug}
-            className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-cyan/30"
+            className="reveal-card group overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition hover:-translate-y-1 hover:border-cyan/30"
           >
             <div className="relative h-48 overflow-hidden">
               <img

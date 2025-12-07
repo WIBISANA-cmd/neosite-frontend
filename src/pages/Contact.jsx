@@ -46,7 +46,7 @@ const Contact = () => {
       description="Sampaikan kebutuhan Anda. Kami akan merespons dalam 1x24 jam kerja."
     >
       <div className="grid gap-8 lg:grid-cols-3">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+        <div className="reveal-card rounded-3xl border border-white/10 bg-white/5 p-6">
           <h3 className="text-xl font-semibold text-white">Informasi Kontak</h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-300">
             <li>Email: hello@neosite.id</li>
@@ -60,7 +60,10 @@ const Contact = () => {
         </div>
 
         <div className="lg:col-span-2">
-          <form className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6" onSubmit={handleSubmit}>
+          <form
+            className="reveal-card grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6"
+            onSubmit={handleSubmit}
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="text-sm text-slate-200">Nama*</label>

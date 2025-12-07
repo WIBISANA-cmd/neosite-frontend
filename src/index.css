@@ -17,10 +17,46 @@ body {
   min-height: 100vh;
 }
 
+:root,
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
 .glass {
   @apply bg-white/5 backdrop-blur-md border border-white/10;
 }
 
 .section-padding {
   @apply px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20;
+}
+
+.loader-shimmer {
+  animation: loader-shimmer 1.4s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(45, 212, 247, 0.65), transparent);
+}
+
+.loader-float {
+  animation: loader-float 3s ease-in-out infinite;
+}
+
+@keyframes loader-shimmer {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(160%);
+  }
+}
+
+@keyframes loader-float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

@@ -23,7 +23,7 @@ const Services = () => {
         {services.map((service) => (
           <div
             key={service.slug}
-            className="flex flex-col justify-between rounded-3xl border border-white/10 bg-white/5 p-6"
+            className="reveal-card flex flex-col justify-between rounded-3xl border border-white/10 bg-white/5 p-6"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">

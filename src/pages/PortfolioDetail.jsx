@@ -39,10 +39,10 @@ const PortfolioDetail = () => {
       eyebrow={`${portfolio.category} • ${portfolio.industry}`}
     >
       <div className="grid gap-8 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+        <div className="reveal-card overflow-hidden rounded-3xl border border-white/10 bg-white/5">
           <img src={portfolio.image_url} alt={portfolio.project_name} className="h-full w-full object-cover" />
         </div>
-        <div className="space-y-4 text-slate-300">
+        <div className="reveal-card space-y-4 text-slate-300">
           <p>{portfolio.description}</p>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-sm font-semibold text-white">Tech Stack</p>

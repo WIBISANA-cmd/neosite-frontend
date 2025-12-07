@@ -47,7 +47,7 @@ const Dashboard = () => {
       {error && <p className="text-sm text-red-400">{error}</p>}
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((project) => (
-          <div key={project.id} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div key={project.id} className="reveal-card rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-white">{project.project_name}</h3>
               <span className={`rounded-full px-3 py-1 text-xs ${statusColors[project.status] || 'bg-white/10'}`}>

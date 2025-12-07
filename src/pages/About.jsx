@@ -32,7 +32,7 @@ const About = () => {
               ['Rata-rata launch', '2-4 minggu'],
               ['Support', 'Dedicated team'],
             ].map(([title, value]) => (
-              <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div key={title} className="reveal-card rounded-2xl border border-white/10 bg-white/5 p-4">
                 <p className="text-slate-400">{title}</p>
                 <p className="text-2xl font-semibold text-white">{value}</p>
               </div>
@@ -43,7 +43,7 @@ const About = () => {
           <h3 className="text-xl font-semibold text-white">Tim Inti</h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {team.map((member) => (
-              <div key={member.name} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div key={member.name} className="reveal-card rounded-2xl border border-white/10 bg-white/5 p-4">
                 <p className="text-lg font-semibold text-white">{member.name}</p>
                 <p className="text-sm text-cyan">{member.role}</p>
                 <p className="mt-2 text-sm text-slate-300">{member.skills}</p>

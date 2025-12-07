@@ -39,7 +39,7 @@ const Blog = () => {
           <Link
             to={`/blog/${post.slug}`}
             key={post.slug}
-            className="group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-cyan/30"
+            className="reveal-card group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:border-cyan/30"
           >
             <p className="text-xs uppercase tracking-wide text-cyan">{post.category}</p>
             <h3 className="mt-2 text-xl font-semibold text-white">{post.title}</h3>
