@@ -8,6 +8,7 @@ import Stepper from '../components/Stepper';
 import FloatingLines from '../components/FloatingLines';
 import CardSwap, { Card } from '../components/CardSwap';
 import { api } from '../utils/api';
+import useReducedMotion from '../hooks/useReducedMotion';
 
 const processSteps = [
   {
@@ -94,12 +95,61 @@ const processSteps = [
   },
 ];
 
+const makeDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
+const advantageCards = [
+  {
+    title: 'Cepat Online',
+    desc: 'Proses terstruktur dengan komponen reusable membuat launch lebih cepat.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5b3fff"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><rect x="34" y="40" width="332" height="170" rx="22" fill="#0f172a" stroke="url(#g1)" stroke-opacity="0.4"/><path d="M70 158C120 120 150 95 210 122C270 150 300 118 330 90" stroke="url(#g1)" stroke-width="14" fill="none" stroke-linecap="round"/><circle cx="120" cy="120" r="16" fill="#5b3fff"/><circle cx="210" cy="122" r="16" fill="#0ea5e9"/><circle cx="300" cy="105" r="13" fill="#c084fc"/><rect x="60" y="64" width="110" height="12" rx="6" fill="#fff" opacity="0.08"/><rect x="230" y="180" width="120" height="10" rx="5" fill="#fff" opacity="0.14"/><rect x="60" y="180" width="150" height="10" rx="5" fill="#fff" opacity="0.2"/></svg>`,
+    ),
+  },
+  {
+    title: 'Desain Eksklusif',
+    desc: 'UI clean, techy, dan konsisten dengan brand guideline.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#60a5fa"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><rect x="55" y="36" width="290" height="178" rx="22" fill="#0f172a" stroke="url(#g2)" stroke-opacity="0.5"/><path d="M120 190 L200 60 L280 190 Z" fill="url(#g2)" opacity="0.7"/><path d="M132 182 L200 80 L268 182 Z" fill="#0b1021" opacity="0.82"/><circle cx="200" cy="122" r="18" fill="url(#g2)"/><rect x="90" y="62" width="60" height="12" rx="6" fill="#fff" opacity="0.14"/><rect x="250" y="62" width="60" height="12" rx="6" fill="#fff" opacity="0.12"/><rect x="100" y="198" width="200" height="12" rx="6" fill="#fff" opacity="0.12"/></svg>`,
+    ),
+  },
+  {
+    title: 'SEO Friendly',
+    desc: 'Struktur semantik dan kecepatan tinggi untuk peringkat lebih baik.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#818cf8"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><rect x="60" y="42" width="280" height="166" rx="18" fill="#0f172a" stroke="url(#g3)" stroke-opacity="0.5"/><rect x="80" y="70" width="240" height="12" rx="6" fill="url(#g3)" opacity="0.85"/><rect x="80" y="94" width="190" height="10" rx="5" fill="#fff" opacity="0.14"/><rect x="80" y="116" width="160" height="10" rx="5" fill="#fff" opacity="0.12"/><rect x="80" y="138" width="220" height="10" rx="5" fill="#fff" opacity="0.1"/><circle cx="320" cy="142" r="32" fill="none" stroke="url(#g3)" stroke-width="10"/><path d="M343 166 L365 188" stroke="#22d3ee" stroke-width="10" stroke-linecap="round"/><rect x="92" y="186" width="130" height="10" rx="5" fill="#fff" opacity="0.16"/></svg>`,
+    ),
+  },
+  {
+    title: 'Scalable',
+    desc: 'Arsitektur API-first dengan Laravel + React yang mudah dikembangkan.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0ea5e9"/><stop offset="100%" stop-color="#5b3fff"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><g transform="translate(60 36)"><rect x="0" y="0" width="280" height="180" rx="22" fill="#0f172a" stroke="url(#g4)" stroke-opacity="0.4"/><rect x="24" y="30" width="92" height="64" rx="14" fill="url(#g4)" opacity="0.75"/><rect x="132" y="30" width="92" height="64" rx="14" fill="url(#g4)" opacity="0.55"/><rect x="76" y="112" width="130" height="42" rx="14" fill="#0b1021" stroke="url(#g4)" stroke-width="2" stroke-opacity="0.6"/><path d="M66 72 L96 112" stroke="url(#g4)" stroke-width="6" stroke-linecap="round"/><path d="M204 72 L184 112" stroke="url(#g4)" stroke-width="6" stroke-linecap="round"/></g><rect x="100" y="198" width="200" height="10" rx="5" fill="#fff" opacity="0.14"/></svg>`,
+    ),
+  },
+  {
+    title: 'Support Penuh',
+    desc: 'Maintenance, backup, dan monitoring dasar setelah go-live.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#14b8a6"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><rect x="52" y="46" width="296" height="158" rx="22" fill="#0f172a" stroke="url(#g5)" stroke-opacity="0.45"/><path d="M110 140 C110 108 140 90 170 90 H230 C260 90 290 108 290 140" stroke="url(#g5)" stroke-width="18" fill="none" stroke-linecap="round"/><circle cx="200" cy="140" r="22" fill="url(#g5)"/><rect x="90" y="70" width="60" height="12" rx="6" fill="#fff" opacity="0.14"/><rect x="250" y="70" width="60" height="12" rx="6" fill="#fff" opacity="0.12"/><rect x="110" y="186" width="180" height="10" rx="5" fill="#fff" opacity="0.14"/></svg>`,
+    ),
+  },
+  {
+    title: 'Data-Driven',
+    desc: 'Integrasi analitik, heatmap, dan A/B testing ringan.',
+    img: makeDataUri(
+      `<svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g6" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#5b3fff"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs><rect width="400" height="250" fill="#0b1021"/><rect x="55" y="46" width="290" height="158" rx="20" fill="#0f172a" stroke="url(#g6)" stroke-opacity="0.45"/><rect x="80" y="84" width="42" height="92" rx="12" fill="url(#g6)" opacity="0.85"/><rect x="142" y="106" width="42" height="70" rx="12" fill="url(#g6)" opacity="0.7"/><rect x="204" y="74" width="42" height="102" rx="12" fill="url(#g6)" opacity="0.82"/><rect x="266" y="124" width="42" height="52" rx="12" fill="url(#g6)" opacity="0.6"/><polyline points="90,124 163,142 225,110 287,132" fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/><circle cx="90" cy="124" r="6" fill="#22d3ee"/><circle cx="163" cy="142" r="6" fill="#22d3ee"/><circle cx="225" cy="110" r="6" fill="#22d3ee"/><circle cx="287" cy="132" r="6" fill="#22d3ee"/></svg>`,
+    ),
+  },
+];
+
 const Home = () => {
+  const reduceMotion = useReducedMotion();
   const [services, setServices] = useState([]);
   const [portfolios, setPortfolios] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [faqs, setFaqs] = useState([]);
   const [activeProcess, setActiveProcess] = useState(0);
+  const [cardSize, setCardSize] = useState({ width: 740, height: 520 });
   const heroRef = useRef(null);
   const fallbackPortfolios = [
     {
@@ -137,6 +187,34 @@ const Home = () => {
   ];
 
   useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const maxWidth = 740;
+    const minWidth = 320;
+    let raf;
+    const update = () => {
+      const horizontalPadding = window.innerWidth < 640 ? 48 : window.innerWidth < 1024 ? 96 : 160;
+      const availableWidth = Math.max(minWidth, window.innerWidth - horizontalPadding);
+      const width = Math.min(maxWidth, availableWidth);
+      const height = Math.round(width * 0.7);
+      setCardSize({ width, height });
+    };
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
+
+  const distanceScale = cardSize.width / 740;
+  const cardDistance = Math.round(Math.min(120, Math.max(70, 120 * distanceScale)));
+  const verticalDistance = Math.round(Math.min(105, Math.max(60, 105 * distanceScale)));
+
+  useEffect(() => {
     const load = async () => {
       try {
         const [serviceRes, portfolioRes, testimonialRes, faqRes] = await Promise.all([
@@ -157,6 +235,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    if (reduceMotion) return undefined;
     if (typeof window === 'undefined') return undefined;
     gsap.registerPlugin(ScrollTrigger);
 
@@ -194,7 +273,7 @@ const Home = () => {
     }, heroRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div className="relative space-y-10 overflow-hidden">
@@ -208,10 +287,10 @@ const Home = () => {
             topWavePosition={{ x: 8, y: 0.4, rotate: -0.35 }}
             middleWavePosition={{ x: 4, y: 0.0, rotate: 0.35 }}
             bottomWavePosition={{ x: 2.5, y: -0.6, rotate: -0.2 }}
-            animationSpeed={1.15}
-            parallax
-            parallaxStrength={0.18}
-            interactive
+            animationSpeed={reduceMotion ? 0.6 : 1.15}
+            parallax={!reduceMotion}
+            parallaxStrength={reduceMotion ? 0.08 : 0.18}
+            interactive={!reduceMotion}
             mixBlendMode="screen"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0b1021]/70 via-[#0b1021]/80 to-[#0b1021]" />
@@ -247,24 +326,28 @@ const Home = () => {
         title="Website modern dengan fondasi kuat"
         description="Kami fokus pada performa, keamanan, dan pengalaman pengguna agar bisnis Anda tumbuh lebih cepat."
       >
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            ['Cepat Online', 'Proses terstruktur dengan komponen reusable membuat launch lebih cepat.'],
-            ['Desain Eksklusif', 'UI clean, techy, dan konsisten dengan brand guideline.'],
-            ['SEO Friendly', 'Struktur semantik dan kecepatan tinggi untuk peringkat lebih baik.'],
-            ['Scalable', 'Arsitektur API-first dengan Laravel + React yang mudah dikembangkan.'],
-            ['Support Penuh', 'Maintenance, backup, dan monitoring dasar setelah go-live.'],
-            ['Data-Driven', 'Integrasi analitik, heatmap, dan A/B testing ringan.'],
-          ].map(([title, desc]) => (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {advantageCards.map(({ title, desc, img }) => (
             <div
               key={title}
-              className="reveal-card glass rounded-2xl p-5 shadow-lg shadow-black/10 transition hover:-translate-y-1 hover:shadow-cyan/20"
+              className="reveal-card group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/5 via-white/0 to-transparent shadow-lg shadow-black/10 transition hover:-translate-y-1.5 hover:border-cyan/50 hover:shadow-[0_30px_120px_rgba(14,165,233,0.45)] hover:shadow-cyan/30"
             >
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-cyan/10 text-cyan">
-                <span>◆</span>
+              <div className="relative">
+                <img
+                  src={img}
+                  alt={title}
+                  className="h-44 w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0b1021] via-transparent to-transparent opacity-70" />
               </div>
-              <h3 className="text-lg font-semibold text-white">{title}</h3>
-              <p className="mt-2 text-sm text-slate-300">{desc}</p>
+              <div className="flex flex-1 flex-col p-5">
+                <div className="mb-3 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan">
+                  ✦ Advantage
+                </div>
+                <h3 className="text-lg font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-sm text-slate-300">{desc}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -348,7 +431,15 @@ const Home = () => {
           </div>
 
           <div className="pointer-events-none absolute inset-y-0 right-0 w-full max-w-5xl">
-            <CardSwap width={740} height={520} cardDistance={120} verticalDistance={105} delay={3600}>
+            <CardSwap
+              width={cardSize.width}
+              height={cardSize.height}
+              cardDistance={cardDistance}
+              verticalDistance={verticalDistance}
+              delay={reduceMotion ? 5200 : 3600}
+              pauseWhenOffscreen
+              disabled={reduceMotion}
+            >
               {(portfolios.slice(0, 4).length ? portfolios.slice(0, 4) : fallbackPortfolios).map((item, idx) => (
                 <Card
                   key={item.slug || idx}

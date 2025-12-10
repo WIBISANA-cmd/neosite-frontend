@@ -1,20 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ========= Global ========= */
+
 :root {
   color-scheme: dark;
-}
-
-body {
-  margin: 0;
-  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
-  background: radial-gradient(circle at 20% 20%, rgba(45, 212, 247, 0.05), transparent 25%),
-    radial-gradient(circle at 80% 0%, rgba(96, 165, 250, 0.05), transparent 25%),
-    #0b1021;
-  color: #f8fafc;
-  min-height: 100vh;
 }
 
 :root,
@@ -22,6 +15,24 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(45, 212, 247, 0.05), transparent 25%),
+    radial-gradient(circle at 80% 0%, rgba(96, 165, 250, 0.05), transparent 25%),
+    #0b1021;
+  color: #f8fafc;
+}
+
+/* ========= Utilities ========= */
 
 .glass {
   @apply bg-white/5 backdrop-blur-md border border-white/10;
@@ -31,9 +42,16 @@ html {
   @apply px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20;
 }
 
+/* Loader animations */
+
 .loader-shimmer {
   animation: loader-shimmer 1.4s ease-in-out infinite;
-  background: linear-gradient(90deg, transparent, rgba(45, 212, 247, 0.65), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(45, 212, 247, 0.65),
+    transparent
+  );
 }
 
 .loader-float {
@@ -58,5 +76,38 @@ html {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+/* ========= 404 Page Special Styles ========= */
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glitch-text {
+  text-shadow:
+    2px 0 #0ea5e9,
+    -2px 0 #ef4444,
+    0 2px #0ea5e9,
+    0 -2px #ef4444;
+}
+
+/* Terminal cursor blink */
+
+.terminal-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }

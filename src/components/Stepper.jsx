@@ -12,7 +12,7 @@ const Stepper = ({
   const isLast = activeIndex >= steps.length - 1;
 
   return (
-    <div className="reveal-card relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0a0715] p-8 shadow-[0_20px_60px_rgba(91,63,255,0.2)] sm:p-10">
+    <div className="reveal-card relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0a0715] p-6 shadow-[0_20px_60px_rgba(91,63,255,0.2)] sm:p-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(91,63,255,0.08),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.06),transparent_30%)]" />
 
       <div className="relative flex flex-col gap-8">
@@ -26,33 +26,38 @@ const Stepper = ({
           </span>
         </div>
 
-        <div className="flex items-center justify-between gap-3">
-          {steps.map((step, idx) => {
-            const status = idx < activeIndex ? 'done' : idx === activeIndex ? 'active' : 'upcoming';
-            return (
-              <div key={step.title} className="flex flex-1 items-center gap-3">
-                <div
-                  className={clsx(
-                    'flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-base font-semibold transition-all duration-300',
-                    status === 'done' && 'bg-[#5b3fff] text-white shadow-[0_0_30px_rgba(91,63,255,0.6)]',
-                    status === 'active' &&
-                      'bg-[#5b3fff] text-white ring-4 ring-[#5b3fff]/30 shadow-[0_0_25px_rgba(91,63,255,0.5)]',
-                    status === 'upcoming' && 'bg-white/5 text-slate-200 border border-white/10',
-                  )}
-                >
-                  {status === 'done' ? '✓' : idx + 1}
-                </div>
-                {idx !== steps.length - 1 && (
+        <div className="relative -mx-4 sm:mx-0">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#0a0715] to-transparent sm:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#0a0715] to-transparent sm:hidden" />
+          <div className="flex items-center gap-3 overflow-x-auto px-4 pb-4 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0">
+            {steps.map((step, idx) => {
+              const status = idx < activeIndex ? 'done' : idx === activeIndex ? 'active' : 'upcoming';
+              return (
+                <div key={step.title || idx} className="flex flex-none items-center gap-3">
                   <div
                     className={clsx(
-                      'h-1 w-full rounded-full',
-                      idx < activeIndex ? 'bg-[#5b3fff]' : 'bg-white/10',
+                      'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 sm:h-12 sm:w-12 sm:text-base',
+                      status === 'done' && 'bg-[#5b3fff] text-white shadow-[0_0_30px_rgba(91,63,255,0.6)]',
+                      status === 'active' &&
+                        'bg-[#5b3fff] text-white ring-4 ring-[#5b3fff]/30 shadow-[0_0_25px_rgba(91,63,255,0.5)]',
+                      status === 'upcoming' && 'bg-white/5 text-slate-200 border border-white/10',
                     )}
-                  />
-                )}
-              </div>
-            );
-          })}
+                  >
+                    {status === 'done' ? '✓' : idx + 1}
+                  </div>
+                  {idx !== steps.length - 1 && (
+                    <div
+                      className={clsx(
+                        'h-1 rounded-full transition-all duration-300',
+                        idx < activeIndex ? 'bg-[#5b3fff]' : 'bg-white/10',
+                        'w-14 sm:w-24 lg:w-32',
+                      )}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className="space-y-4 sm:space-y-6">

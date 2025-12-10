@@ -3,6 +3,7 @@ import React, {
   cloneElement,
   forwardRef,
   isValidElement,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -45,6 +46,8 @@ const CardSwap = ({
   verticalDistance = 70,
   delay = 5000,
   pauseOnHover = true,
+  pauseWhenOffscreen = true,
+  disabled = false,
   onCardClick,
   skewAmount = 6,
   easing = 'elastic',
@@ -81,8 +84,18 @@ const CardSwap = ({
   const tlRef = useRef(null);
   const intervalRef = useRef();
   const container = useRef(null);
+  const swapRef = useRef(null);
+  const isVisible = useRef(true);
 
   useLayoutEffect(() => {
+    if (disabled) {
+      refs.forEach((r, i) => {
+        if (!r.current) return;
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, refs.length), 0);
+      });
+      return undefined;
+    }
+
     order.current = Array.from({ length: refs.length }, (_, i) => i);
     const total = refs.length;
     refs.forEach((r, i) => {
@@ -91,6 +104,7 @@ const CardSwap = ({
     });
 
     const swap = () => {
+      if (!isVisible.current) return;
       if (order.current.length < 2) return;
 
       const [front, ...rest] = order.current;
@@ -147,6 +161,7 @@ const CardSwap = ({
         order.current = [...rest, front];
       });
     };
+    swapRef.current = swap;
 
     if (refs.length) swap();
     if (refs.length > 1) intervalRef.current = window.setInterval(swap, delay);
@@ -171,7 +186,32 @@ const CardSwap = ({
     }
     return () => clearInterval(intervalRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, childArr.length]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, childArr.length, disabled]);
+
+  useEffect(() => {
+    if (!pauseWhenOffscreen || disabled) return undefined;
+    const node = container.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        isVisible.current = Boolean(entry?.isIntersecting);
+        if (!isVisible.current) {
+          clearInterval(intervalRef.current);
+          tlRef.current?.pause();
+        } else if (order.current.length > 1) {
+          clearInterval(intervalRef.current);
+          swapRef.current?.();
+          intervalRef.current = window.setInterval(() => swapRef.current?.(), delay);
+        }
+      },
+      { threshold: 0.15 },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [delay, pauseWhenOffscreen, disabled]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

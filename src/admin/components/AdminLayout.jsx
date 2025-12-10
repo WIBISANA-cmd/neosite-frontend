@@ -4,9 +4,19 @@ import AdminTopbar from './AdminTopbar';
 import { useAuth } from '../../context/AuthContext';
 
 const AdminLayout = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, checkingAuth, logout } = useAuth();
+  const allowed = ['admin', 'superadmin'].includes(user?.role);
 
-  if (!isAuthenticated || user?.role !== 'admin') {
+  if (checkingAuth) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0b1021] text-white">
+        <p className="text-sm text-slate-300">Memeriksa sesi Anda...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !allowed) {
+    logout();
     return <Navigate to="/login" replace />;
   }
 

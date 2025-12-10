@@ -180,6 +180,7 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  authMe: (token) => request('/auth/me', { token }),
   authLogin: (payload) =>
     request('/auth/login', {
       method: 'POST',
